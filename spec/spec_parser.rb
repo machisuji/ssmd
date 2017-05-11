@@ -45,7 +45,7 @@ class SpecParser
         next_output = snippet
 
         if @next_title && @next_input
-          spec.cases.push SpecCase.new(@next_title, @next_input, next_output)
+          spec.cases.push SpecCase.new(@next_title, @next_input.strip, next_output.strip)
         end
 
         @next_title = nil

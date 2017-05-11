@@ -12,6 +12,13 @@ RSpec.describe SSMD do
     spec_case
   end
 
+  def check_case(title)
+    spec = find_case title
+    result = SSMD.to_ssml(spec.input).gsub(/\A<speak>/, "").gsub(/<\/speak>\Z/, "")
+
+    expect(result).to eq spec.output
+  end
+
   it "has a version number" do
     expect(SSMD::VERSION).not_to be nil
   end
@@ -20,10 +27,18 @@ RSpec.describe SSMD do
     expect(spec.cases.size).to eq 11
   end
 
-  it "converts Emphasis" do
-    spec = find_case "Emphasis"
+  it "converts Text" do
+    spec = find_case "Text"
     result = SSMD.to_ssml spec.input
 
     expect(result).to eq spec.output
+  end
+
+  it "converts Emphasis" do
+    check_case "Emphasis"
+  end
+
+  it "converts Mark" do
+    check_case "Mark"
   end
 end

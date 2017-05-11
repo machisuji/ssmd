@@ -1,9 +1,10 @@
 require "ssmd/version"
+require "ssmd/converter"
 
 module SSMD
   module_function
 
   def to_ssml(ssmd)
-    ssmd.gsub(/\*([^\*]+)\*/, '<emphasis>\1</emphasis>')
+    Converter.new(ssmd).convert
   end
 end

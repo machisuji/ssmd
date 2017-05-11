@@ -1,311 +1,52 @@
 # SSMD
 
 Speech Synthesis Markdown (SSMD) is an lightweight alternative syntax for [SSML](https://www.w3.org/TR/speech-synthesis/).
+This repository contains both the reference implementation of the SSMD-to-SSML conversion tool (`ssmd`) as well
+as the [specification](SPECIFICATION.md) of the language.
 
-## Specification
+## Requirements
 
-SSMD is mapped to SSML using the following rules.
+The tools and executable specification provided in this repository require **Ruby 2.3.4** or better.
 
-* [Text](#text)
-* [Emphasis](#emphasis)
-* [Break](#break)
-* [Language](#language)
-* [Mark](#mark)
-* [Paragraph](#paragraph)
-* [Phoneme](#phoneme)
-* [Prosody](#prosody)
-* [Say-as](#say-as)
-* [Substitution](#substitution)
-* [Extensions](#extensions)
+## Installation
 
-***
-
-### Text
-
-Any text written is implicitly wrapped in a `<speak>` root element.
-This will be omitted in the rest of the examples shown in this section.
-
-SSMD:
-```
-text
-```
-
-SSML:
-```html
-<speak>text</speak>
-```
-
-***
-
-### Emphasis
-
-SSMD:
-```
-*word*
-```
-
-SSML:
-```html
-<emphasis>word</emphasis>
-```
-
-***
-
-### Break
-
-Pauses can be indicated by using `...`. Several modifications to the duration are allowed as shown below.
-
-SSMD:
-```
-Hello ...      world    (default: x-strong break like after a paragraph)
-Hello - ...0   world    (skip break when there would otherwise be one like after this dash)
-Hello ...c     world    (medium break like after a comma)
-Hello ...s     world    (strong break like after a sentence)
-Hello ...p     world    (extra string break like after a paragraph)
-Hello ...5s    world    (5 second break (max 10s))
-Hello ...100ms world    (100 millisecond break (max 10000ms))
-Hello ...100   world    (100 millisecond break (max 10000ms))
-```
-
-SSML:
-```html
-Hello <break strength="x-strong"/> world
-Hello - <break strength="none"/> world
-Hello <break strength="medium"/> world
-Hello <break strength="strong"/> world
-Hello <break strength="x-strong"/> world
-Hello <break time="5s"/> world
-Hello <break time="100ms"/> world
-Hello <break time="100ms"/> world
-```
-
-***
-
-### Language
-
-Text passages can be annotated with ISO 639-1 language codes as shown below.
-SSML expects a full code including a country. While you can provide those too
-SSMD will use a sensible default in case where this is omitted.
-As can be seen in the first example where `en` defaults to `en-US` and
-`de` defaults to `de-DE`.
-
-SSMD:
-```
-Ich sah [Guardians of the Galaxy](en) im Kino.
-Ich sah [Guardians of the Galaxy](en-GB) im Kino.
-I saw ["Die Häschenschule"](de) in the cinema.
-```
-
-SSML:
-```html
-Ich sah <lang xml:lang="en-US">Guardians of the Galaxy</lang> im Kino.
-Ich sah <lang xml:lang="en-GB">Guardians of the Galaxy</lang> im Kino.
-I saw <lang xml:lang="de-DE">"Die Häschenschule"</lang> in the cinema.
-```
-
-***
-
-### Mark
-
-Sections of text can be tagged using marks. They do not effect the synthesis but
-can be returned by SSML processing engines as meta information and to emit
-events during processing based on these marks.
-
-SSMD:
-```
-I always wanted a @animal cat as a pet.
-```
-
-SSML:
-```html
-I always wanted a <mark name="animal"/> cat as a pet.
-```
-
-***
-
-### Paragraph
-
-Empty lines indicate a paragraph.
-
-SSMD:
-```
-First prepare the ingredients.
-Don't forget to wash them first.
-
-Lastly mix them all together.
-```
-
-SSML:
-```html
-<p>First prepare the ingredients. Don't forget to wash them first.</p>
-<p>Lastly mix them all together.</p>
-```
-
-### Phoneme
-
-Sometimes the speech synthesis engine needs to be told how exactly to pronounce a word.
-This can be done via phonemes. While SSML supports IPA, SSMD uses [X-SAMPA](https://en.wikipedia.org/wiki/X-SAMPA) by default.
-
-SSMD:
-```
-The German word ["dich"](ph: dIC) does not sound like dick.
-```
-
-SSML:
-```html
-The German word <phoneme alphabet="ipa" ph="dɪç">"dich"</phoneme> does not sound like dick.
-```
-
-### Prosody
-
-The prosody or rythm depends the volume, rate and pitch of the delivered text.
-
-Each of those values can be defined by a number between 1 and 5 where those mean:
-
-| number | volume | rate | pitch |
-| ------ | ------ | ---- | ----- |
-| 0 | silent |        |        |
-| 1 | x-soft | x-slow | x-low  |
-| 2 | soft   | slow   | low    |
-| 3 | medium | medium | medium |
-| 4 | loud   | fast   | high   |
-| 5 | x-loud | x-fast | x-high |
-
-SSMD:
-```
-Volume:
-
-(silent)
---extra soft--
--soft-
-medium
-+loud+ or LOUD
-++extra loud++
-
-Rate:
-
-<<extra slow<<
-<slow<
-medium
->fast>
->>extra fast>>
-
-Pitch:
-
-__extra low__
-_low_
-medium
-^high^
-^^extra high^^
-
-++>>^^extra loud, fast and high^^>>++ or
-[extra loud, fast, and high](vrp: 555) or
-[extra loud, fast, and high](v: 5, r: 5, p: 5)
-```
-
-SSML:
-```html
-Volume:
-
-<prosody volume="silent">silent</prosody>
-<prosody volume="x-soft">extra soft</prosody>
-<prosody volume="soft">soft</prosody>
-medium
-<prosody volume="loud">loud</prosody> or <prosody volume="loud">loud</prosody>
-<prosody volume="x-loud">extra loud</prosody>
-
-Rate:
-
-<prosody rate="x-slow">extra slow</prosody>
-<prosody rate="slow">slow</prosody>
-medium
-<prosody rate="fast">fast</prosody>
-<prosody rate="x-fast">extra fast</prosody>
-
-Pitch:
-
-<prosody pitch="x-low">extra low</prosody>
-<prosody pitch="low">low</prosody>
-medium
-<prosody pitch="high">high</prosody>
-<prosody pitch="x-high">extra high</prosody>
-
-<prosody volume="x-loud" rate="x-fast" pitch="x-high">extra loud, fast and high</prosody> or
-<prosody volume="x-loud" rate="x-fast" pitch="x-high">extra loud, fast and high</prosody> or
-<prosody volume="x-loud" rate="x-fast" pitch="x-high">extra loud, fast and high</prosody>
-```
-
-The shortcuts are listed first. While they can be combined, sometimes it's easier and shorter to just use
-the explizit form shown in the last 2 lines. All of them can be nested, too.
-Moreover changes in volume (`[louder](v: +10dB)`) and pitch (`[lower](p: -4%)`) can also be given explicitly in relative values.
-
-### Say-as
-
-You can give the speech sythesis engine hints as to what it's supposed to read using `as`.
-
-Possible values:
-
-* character - spell out each single character, e.g. for KGB
-* number - cardinal number, e.g. 100
-* ordinal - ordinal number, e.g. 1st
-* digits - spell out each single digit, e.g. 123 as 1 - 2 - 3
-* fraction - pronounce number as fraction, e.g. 3/4 as three quarters
-* unit - e.g. 1meter
-* date - read content as a date, must provide format
-* time - duration in minutes and seconds
-* address - read as part of an address
-* telephone - read content as a telephone number
-* expletive - beeps out the content
-
-SSMD
-```
-Today on [29.12.2017](as: date, format: "dd.mm.yyyy") my
-telephone number is [+49 123456](as: telephone).
-You can't say [fuck](as: expletive) on television.
-```
-
-SSML:
-```html
-Today on <say-as interpret-as="date" format="dd.mm.yyyy">29.12.2017</say-as> my
-telephone number is <say-as interpret-as="telephone">+49 123456</say-as>.
-You can't say <say-as interpret-as="expletive">fuck</say-as> on television.
-```
-
-***
-
-### Substitution
-
-Allows to substitute the pronuciation of a word, such as an acronym, with an alias.
-
-SSMD:
-```
-I'd like to drink some [H2O](sub: water) now.
-```
-
-SSML:
-```html
-I'd like to drink some <sub alias="water">H2O</sub> now.
-```
-
-***
-
-### Extensions
-
-It must be possible to extend SSML with constructs specific to certain speech synthesis engines.
-Registered extensions must have a unique name. They can take parameters.
-For instance let's a assume we registered Amazon Polly's whisper effect in some hypothetical SSMD
-library API.
+Add this line to your application's Gemfile:
 
 ```ruby
-SSMD.register "whisper", "amazon:effect", name: "whispered"
+gem 'ssmd'
 ```
 
-SSMD:
-```
-If he [whispers](ext: whisper), he lies.
-```
+And then execute:
 
-SSML:
-```html
-If he <amazon:effect name="whispered">whispers</amazon:effect>, he lies.
-```
+    $ bundle
+
+Or install it yourself as:
+
+    $ gem install ssmd
+
+## Usage
+
+TODO: Write usage instructions here
+
+## Development
+
+After checking out the repo, run `bin/setup` to install dependencies. You can run `bin/console` for an interactive prompt that will allow you to experiment.
+
+To install this gem onto your local machine, run `bundle exec rake install`. To release a new version, update the version number in `version.rb`, and then run `bundle exec rake release`, which will create a git tag for the version, push git commits and tags, and push the `.gem` file to [rubygems.org](https://rubygems.org).
+
+### Tests
+
+Run `rake spec` to run the tests against a given executable.
+
+This implementation and any other can be tested against the SSMD specification.
+Said specification is extracted from `SPECIFICATION.md`.
+It runs each SSMD snippet through the tested tool and compares it to the output of
+the following SSML snippet. If they match the test passes.
+
+## Contributing
+
+Bug reports and pull requests are welcome on GitHub at https://github.com/machisuji/ssmd. This project is intended to be a safe, welcoming space for collaboration, and contributors are expected to adhere to the [Contributor Covenant](http://contributor-covenant.org) code of conduct.
+
+## License
+
+The gem is available as open source under the terms of the [MIT License](http://opensource.org/licenses/MIT).

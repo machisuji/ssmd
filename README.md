@@ -287,6 +287,8 @@ SSML:
 I'd like to drink some <sub alias="water">H2O</sub> now.
 ```
 
+***
+
 ### Extensions
 
 It must be possible to extend SSML with constructs specific to certain speech synthesis engines.

@@ -15,6 +15,8 @@ SSMD is mapped to SSML using the following rules.
 * [Phoneme](#phoneme)
 * [Prosody](#prosody)
 * [Say-as](#say-as)
+* [Substitution](#substitution)
+* [Extensions](#extensions)
 
 ***
 
@@ -162,32 +164,146 @@ Each of those values can be defined by a number between 1 and 5 where those mean
 
 | number | volume | rate | pitch |
 | ------ | ------ | ---- | ----- |
-| 0 | silent | | |
-| 1 | x-soft | x-slow | x-low |
-| 2 | soft | slow | low |
+| 0 | silent |        |        |
+| 1 | x-soft | x-slow | x-low  |
+| 2 | soft   | slow   | low    |
 | 3 | medium | medium | medium |
-| 4 | loud | fast | high |
+| 4 | loud   | fast   | high   |
 | 5 | x-loud | x-fast | x-high |
 
 SSMD:
 ```
-Sometimes what he says is way too LOUD.
-[I don't like LOUD](volume: 1, rate: 4, pitch: 5), you know?
+Volume:
+
+(silent)
+--extra soft--
+-soft-
+medium
++loud+ or LOUD
+++extra loud++
+
+Rate:
+
+<<extra slow<<
+<slow<
+medium
+>fast>
+>>extra fast>>
+
+Pitch:
+
+__extra low__
+_low_
+medium
+^high^
+^^extra high^^
+
+++>>^^extra loud, fast and high^^>>++ or
+[extra loud, fast, and high](vrp: 555) or
+[extra loud, fast, and high](v: 5, r: 5, p: 5)
 ```
 
 SSML:
 ```html
-Sometimes what he says is way too <prosody volume="loud">loud</prosody>.
-<prosody volume="x-soft" rate="fast" pitch="x-high">I don't like <prosody volume="soft">loud</prosody></prosody>, you know?
+Volume:
+
+<prosody volume="silent">silent</prosody>
+<prosody volume="x-soft">extra soft</prosody>
+<prosody volume="soft">soft</prosody>
+medium
+<prosody volume="loud">loud</prosody> or <prosody volume="loud">loud</prosody>
+<prosody volume="x-loud">extra loud</prosody>
+
+Rate:
+
+<prosody rate="x-slow">extra slow</prosody>
+<prosody rate="slow">slow</prosody>
+medium
+<prosody rate="fast">fast</prosody>
+<prosody rate="x-fast">extra fast</prosody>
+
+Pitch:
+
+<prosody pitch="x-low">extra low</prosody>
+<prosody pitch="low">low</prosody>
+medium
+<prosody pitch="high">high</prosody>
+<prosody pitch="x-high">extra high</prosody>
+
+<prosody volume="x-loud" rate="x-fast" pitch="x-high">extra loud, fast and high</prosody> or
+<prosody volume="x-loud" rate="x-fast" pitch="x-high">extra loud, fast and high</prosody> or
+<prosody volume="x-loud" rate="x-fast" pitch="x-high">extra loud, fast and high</prosody>
 ```
 
-As seen in the example the **volume** can be increased by 1 over the current level by writing in ALL CAPITALS.
-This also works when nested. Moreover changes in volume (`[louder](volume: +10dB)`) and pitch (`[lower](pitch: -4%)`) can also be given explicitly in relative values.
+The shortcuts are listed first. While they can be combined, sometimes it's easier and shorter to just use
+the explizit form shown in the last 2 lines. All of them can be nested, too.
+Moreover changes in volume (`[louder](v: +10dB)`) and pitch (`[lower](p: -4%)`) can also be given explicitly in relative values.
 
 ### Say-as
 
 You can give the speech sythesis engine hints as to what it's supposed to read using `as`.
 
+Possible values:
+
+* character - spell out each single character, e.g. for KGB
+* number - cardinal number, e.g. 100
+* ordinal - ordinal number, e.g. 1st
+* digits - spell out each single digit, e.g. 123 as 1 - 2 - 3
+* fraction - pronounce number as fraction, e.g. 3/4 as three quarters
+* unit - e.g. 1meter
+* date - read content as a date, must provide format
+* time - duration in minutes and seconds
+* address - read as part of an address
+* telephone - read content as a telephone number
+* expletive - beeps out the content
+
 SSMD
 ```
-Today is the []
+Today on [29.12.2017](as: date, format: "dd.mm.yyyy") my
+telephone number is [+49 123456](as: telephone).
+You can't say [fuck](as: expletive) on television.
+```
+
+SSML:
+```html
+Today on <say-as interpret-as="date" format="dd.mm.yyyy">29.12.2017</say-as> my
+telephone number is <say-as interpret-as="telephone">+49 123456</say-as>.
+You can't say <say-as interpret-as="expletive">fuck</say-as> on television.
+```
+
+***
+
+### Substitution
+
+Allows to substitute the pronuciation of a word, such as an acronym, with an alias.
+
+SSMD:
+```
+I'd like to drink some [H2O](sub: water) now.
+```
+
+SSML:
+```html
+I'd like to drink some <sub alias="water">H2O</sub> now.
+```
+
+### Extensions
+
+It must be possible to extend SSML with constructs specific to certain speech synthesis engines.
+Registered extensions must have a unique name. They can take parameters.
+For instance let's a assume we registered Amazon Polly's whisper effect in some hypothetical SSMD
+library API.
+
+```ruby
+SSMD.register "whisper", "amazon:effect", name: "whispered"
+```
+
+SSMD:
+```
+If he [whispers](ext: whisper), he lies.
+```
+
+SSML:
+```html
+If he <amazon:effect name="whispered">whispers</amazon:effect>, he lies.
+```

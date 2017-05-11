@@ -1,5 +1,7 @@
 # SSMD
 
+[![Build Status](https://travis-ci.org/machisuji/ssmd.svg?branch=master)](https://travis-ci.org/machisuji/ssmd)
+
 Speech Synthesis Markdown (SSMD) is an lightweight alternative syntax for [SSML](https://www.w3.org/TR/speech-synthesis/).
 This repository contains both the reference implementation of the SSMD-to-SSML conversion tool (`ssmd`) as well
 as the [specification](SPECIFICATION.md) of the language.

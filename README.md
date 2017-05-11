@@ -8,6 +8,13 @@ SSMD is mapped to SSML using the following rules.
 
 * [Text](#text)
 * [Emphasis](#emphasis)
+* [Break](#break)
+* [Language](#language)
+* [Mark](#mark)
+* [Paragraph](#paragraph)
+* [Phoneme](#phoneme)
+* [Prosody](#prosody)
+* [Say-as](#say-as)
 
 ***
 

@@ -141,6 +141,8 @@ SSML:
 <p>Lastly mix them all together.</p>
 ```
 
+***
+
 ### Phoneme
 
 Sometimes the speech synthesis engine needs to be told how exactly to pronounce a word.
@@ -155,6 +157,8 @@ SSML:
 ```html
 The German word <phoneme alphabet="ipa" ph="dɪç">"dich"</phoneme> does not sound like dick.
 ```
+
+***
 
 ### Prosody
 
@@ -239,6 +243,8 @@ The shortcuts are listed first. While they can be combined, sometimes it's easie
 the explizit form shown in the last 2 lines. All of them can be nested, too.
 Moreover changes in volume (`[louder](v: +10dB)`) and pitch (`[lower](p: -4%)`) can also be given explicitly in relative values.
 
+***
+
 ### Say-as
 
 You can give the speech sythesis engine hints as to what it's supposed to read using `as`.
@@ -257,7 +263,7 @@ Possible values:
 * telephone - read content as a telephone number
 * expletive - beeps out the content
 
-SSMD
+SSMD:
 ```
 Today on [29.12.2017](as: date, format: "dd.mm.yyyy") my
 telephone number is [+49 123456](as: telephone).

@@ -1,5 +1,9 @@
 require "ssmd/version"
 
 module SSMD
-  # Your code goes here...
+  module_function
+
+  def to_ssml(ssmd)
+    ssmd.gsub(/\*([^\*]+)\*/, '<emphasis>\1</emphasis>')
+  end
 end

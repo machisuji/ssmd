@@ -1,3 +1,5 @@
+require 'ssmd/annotation_processor'
+
 class Converter
   attr_reader :input
 
@@ -9,6 +11,7 @@ class Converter
     self
       .emphasis
       .mark
+      .annotations
       .output
   end
 
@@ -20,45 +23,19 @@ class Converter
     Converter.new input.gsub(/@(\w+)/, '<mark name="\1"/>')
   end
 
-  def explicit_annotation
+  def annotations
+    process AnnotationProcessor.new, input
+  end
 
+  def process(processor, input)
+    if processor.matches? input
+      process processor, processor.substitute(input)
+    else
+      Converter.new input
+    end
   end
 
   def output
     "<speak>#{input.strip}</speak>"
-  end
-end
-
-class AnnotationProcessor
-  attr_reader :input
-
-  def initialize(input)
-    @input = input
-  end
-
-  ##
-  # Matches explicitly annotated sections.
-  # For example:
-  #
-  #     [Guardians of the Galaxy](en-GB, v: +4dB, p: -3%)
-  def self.regex
-    %r{
-      \A
-      \[                              # opening text
-        ([^\]]+)                      # annotated text
-      \]                              # closing text
-      \(                              # opening annotations
-        ((?:
-          (?:
-            (?:#{language_regex})  # language annotation
-          )(?:,\s?)?
-        )+)
-      \)                              # closing annotations
-      \Z
-    }x
-  end
-
-  def self.language_regex
-    /[a-z]{2}(?:-[A-Z]{2})?/
   end
 end

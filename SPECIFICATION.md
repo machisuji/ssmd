@@ -315,3 +315,19 @@ SSML:
 ```html
 If he <amazon:effect name="whispered">whispers</amazon:effect>, he lies.
 ```
+
+***
+
+### Nesting and duplicate annotations
+
+Formats can be nested. Duplicate annotations of the same type are ignored.
+
+SSMD:
+```
+Der Film [Guardians of the *Galaxy*](en-GB, de, fr-FR) ist ganz [okay](en-US).
+```
+
+SSML:
+```html
+Der Film <lang xml:lang="en-GB">Guardians of the <emphasis>Galaxy</emphasis></lang> ist ganz <lang xml:lang="en-US">okay</lang>.
+```

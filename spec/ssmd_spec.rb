@@ -23,8 +23,8 @@ RSpec.describe SSMD do
     expect(SSMD::VERSION).not_to be nil
   end
 
-  it "has 11 specs" do
-    expect(spec.cases.size).to eq 11
+  it "has 12 specs" do
+    expect(spec.cases.size).to eq 12
   end
 
   it "converts Text" do
@@ -38,7 +38,15 @@ RSpec.describe SSMD do
     check_case "Emphasis"
   end
 
+  it "converts Language" do
+    check_case "Language"
+  end
+
   it "converts Mark" do
     check_case "Mark"
+  end
+
+  it "converts nested formats and ignores duplicate annotations" do
+    check_case "Nesting and duplicate annotations"
   end
 end

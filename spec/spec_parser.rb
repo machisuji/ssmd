@@ -88,7 +88,7 @@ class SnippetParser
 
     if line.strip == "```"
       [snippet, rest]
-    else line.nil?
+    elsif line.nil?
       nil
     else
       read_snippet rest, snippet + line

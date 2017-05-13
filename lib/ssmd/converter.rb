@@ -31,9 +31,5 @@ module SSMD
         input
       end
     end
-
-    def output
-      "<speak>#{input.strip}</speak>"
-    end
   end
 end

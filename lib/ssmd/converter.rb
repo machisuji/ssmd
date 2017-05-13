@@ -1,37 +1,39 @@
-require 'ssmd/annotation_processor'
-require 'ssmd/emphasis_processor'
-require 'ssmd/mark_processor'
+require 'ssmd/processors'
 
-class Converter
-  attr_reader :input
+module SSMD
+  class Converter
+    attr_reader :input
 
-  def initialize(input)
-    @input = input
-  end
-
-  def convert
-    result = processors.inject(input) do |text, processor|
-      process processor.new, text
+    def initialize(input)
+      @input = input
     end
 
-    "<speak>#{result.strip}</speak>"
-  end
+    def convert
+      result = processors.inject(input) do |text, processor|
+        process processor.new, text
+      end
 
-  def processors
-    [
-      EmphasisProcessor, MarkProcessor, AnnotationProcessor
-    ]
-  end
-
-  def process(processor, input)
-    if processor.matches? input
-      process processor, processor.substitute(input)
-    else
-      input
+      "<speak>#{result.strip}</speak>"
     end
-  end
 
-  def output
-    "<speak>#{input.strip}</speak>"
+    def processors
+      p = SSMD::Processors
+
+      [
+        p::EmphasisProcessor, p::MarkProcessor, p::AnnotationProcessor
+      ]
+    end
+
+    def process(processor, input)
+      if processor.matches? input
+        process processor, processor.substitute(input)
+      else
+        input
+      end
+    end
+
+    def output
+      "<speak>#{input.strip}</speak>"
+    end
   end
 end

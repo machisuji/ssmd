@@ -1,4 +1,6 @@
 require 'ssmd/annotation_processor'
+require 'ssmd/emphasis_processor'
+require 'ssmd/mark_processor'
 
 class Converter
   attr_reader :input
@@ -8,30 +10,24 @@ class Converter
   end
 
   def convert
-    self
-      .emphasis
-      .mark
-      .annotations
-      .output
+    result = processors.inject(input) do |text, processor|
+      process processor.new, text
+    end
+
+    "<speak>#{result.strip}</speak>"
   end
 
-  def emphasis
-    Converter.new input.gsub(/\*([^\*]+)\*/, '<emphasis>\1</emphasis>')
-  end
-
-  def mark
-    Converter.new input.gsub(/@(\w+)/, '<mark name="\1"/>')
-  end
-
-  def annotations
-    process AnnotationProcessor.new, input
+  def processors
+    [
+      EmphasisProcessor, MarkProcessor, AnnotationProcessor
+    ]
   end
 
   def process(processor, input)
     if processor.matches? input
       process processor, processor.substitute(input)
     else
-      Converter.new input
+      input
     end
   end
 

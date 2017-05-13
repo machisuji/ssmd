@@ -32,9 +32,9 @@ Or install it yourself as:
 require 'ssmd'
 
 ssmd = "hello *SSMD*!"
-ssmd = SSMD.to_ssml ssmd
+ssml = SSMD.to_ssml ssmd
 
-puts ssmd
+puts ssml
 # Output: <speak>hello <emphasis>SSMD</emphasis>!</speak>
 ```
 

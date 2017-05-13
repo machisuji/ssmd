@@ -2,7 +2,7 @@ module SSMD::Annotations
   class Annotation
     class << self
       def try(text)
-        match = regex.match text
+        match = /\A#{regex}\Z/.match text
 
         if match
           new *match.captures

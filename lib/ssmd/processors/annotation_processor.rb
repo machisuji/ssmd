@@ -21,7 +21,7 @@ module SSMD::Processors
     def self.annotations
       a = SSMD::Annotations
 
-      [a::LanguageAnnotation]
+      [a::LanguageAnnotation, a::PhonemeAnnotation]
     end
 
     def ok?

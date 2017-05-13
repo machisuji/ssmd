@@ -46,6 +46,10 @@ RSpec.describe SSMD do
     check_case "Mark"
   end
 
+  it "converts Phoneme" do
+    check_case "Phoneme"
+  end
+
   it "converts nested formats and ignores duplicate annotations" do
     check_case "Nesting and duplicate annotations"
   end

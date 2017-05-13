@@ -28,7 +28,26 @@ Or install it yourself as:
 
 ## Usage
 
-TODO: Write usage instructions here
+```ruby
+require 'ssmd'
+
+ssmd = "hello *SSMD*!"
+ssmd = SSMD.to_ssml ssmd
+
+puts ssmd
+# Output: <speak>hello <emphasis>SSMD</emphasis>!</speak>
+```
+
+**Note:**
+
+This version is still under development. So far only the following conversions
+described in the specification are implemented:
+
+* Text
+* Emphasis
+* Mark
+* Language
+* Phoneme
 
 ## Development
 

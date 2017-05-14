@@ -20,7 +20,11 @@ module SSMD
     def strip
       doc = ::REXML::Document.new input
 
-      xml_text doc.root
+      if doc.root
+        xml_text doc.root
+      else
+        input # no XML so we assume it is already stripped
+      end
     end
 
     def xml_text(node)

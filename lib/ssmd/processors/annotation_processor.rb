@@ -4,10 +4,10 @@ require 'ssmd/annotations'
 
 module SSMD::Processors
   class AnnotationProcessor < Processor
-    attr_reader :text, :annotations
+    attr_reader :annotations
 
     def result
-      @text, annotations_text = match.captures
+      _, annotations_text = match.captures
 
       if annotations_text
         @annotations = combine_annotations parse_annotations(annotations_text)

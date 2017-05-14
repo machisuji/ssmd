@@ -1,5 +1,4 @@
 require 'ssmd/processors'
-require 'rexml/document'
 
 module SSMD
   class Converter
@@ -18,20 +17,8 @@ module SSMD
     end
 
     def strip
-      doc = ::REXML::Document.new input
-
-      if doc.root
-        xml_text doc.root
-      else
-        input # no XML so we assume it is already stripped
-      end
-    end
-
-    def xml_text(node)
-      if node.is_a? REXML::Text
-        node.to_s
-      else
-        node.children.map { |c| xml_text c }.join
+      processors.inject(input) do |text, processor|
+        process processor.new, text, strip: true
       end
     end
 
@@ -43,9 +30,10 @@ module SSMD
       ]
     end
 
-    def process(processor, input)
+    def process(processor, input, strip: false)
       if processor.matches? input
-        process processor, processor.substitute(input)
+        result = strip ? processor.strip_ssmd(input) : processor.substitute(input)
+        process processor, result, strip: strip
       else
         input
       end

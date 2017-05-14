@@ -14,7 +14,7 @@ module SSMD
   #
   # @return [String]
   def strip_ssmd(ssmd)
-    Converter.new(to_ssml(ssmd)).strip
+    Converter.new(ssmd).strip
   end
 
   def root_dir

@@ -14,6 +14,16 @@ module SSMD::Processors
       end
     end
 
+    def strip_ssmd(input)
+      if match
+        match.pre_match + text + match.post_match
+      end
+    end
+
+    def text
+      match.captures.first
+    end
+
     def result
       raise "subclass responsibility"
     end

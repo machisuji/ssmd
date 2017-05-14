@@ -58,8 +58,7 @@ RSpec.describe SSMD do
 
   describe ".strip_ssmd" do
     let(:input) do
-      "<speak>Hallo <emphasis>welt</emphasis> <lang xml:lang=\"en-US\">" +
-        "A <emphasis>B</emphasis> C</lang></speak>"
+      "Hallo *welt* [A *B* C](en)"
     end
 
     it "returns the plain text without SSMD annotations" do

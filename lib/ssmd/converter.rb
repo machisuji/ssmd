@@ -10,7 +10,7 @@ module SSMD
     end
 
     def convert
-      result = processors.inject(input) do |text, processor|
+      result = processors.inject(input.encode(xml: :text)) do |text, processor|
         process processor.new, text
       end
 

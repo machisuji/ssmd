@@ -41,12 +41,12 @@ SSML:
 
 SSMD:
 ```
-*word*
+*command* & conquer
 ```
 
 SSML:
 ```html
-<emphasis>word</emphasis>
+<emphasis>command</emphasis> &amp; conquer
 ```
 
 ***

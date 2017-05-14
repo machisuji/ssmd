@@ -1,4 +1,5 @@
 require 'ssmd/processors'
+require 'rexml/document'
 
 module SSMD
   class Converter
@@ -14,6 +15,20 @@ module SSMD
       end
 
       "<speak>#{result.strip}</speak>"
+    end
+
+    def strip
+      doc = ::REXML::Document.new input
+
+      xml_text doc.root
+    end
+
+    def xml_text(node)
+      if node.is_a? REXML::Text
+        node.to_s
+      else
+        node.children.map { |c| xml_text c }.join
+      end
     end
 
     def processors

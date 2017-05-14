@@ -8,6 +8,15 @@ module SSMD
     Converter.new(ssmd).convert
   end
 
+  ##
+  # Returns the given string without any SSMD annotations.
+  # For instance for `hello *world*` would return `hello world`.
+  #
+  # @return [String]
+  def strip_ssmd(ssmd)
+    Converter.new(ssmd).strip
+  end
+
   def root_dir
     Gem::Specification.find_by_name("ssmd").gem_dir
   end

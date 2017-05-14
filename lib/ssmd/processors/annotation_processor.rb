@@ -21,7 +21,7 @@ module SSMD::Processors
     def self.annotations
       a = SSMD::Annotations
 
-      [a::LanguageAnnotation, a::PhonemeAnnotation]
+      [a::LanguageAnnotation, a::PhonemeAnnotation, a::ProsodyAnnotation]
     end
 
     def ok?
@@ -39,7 +39,7 @@ module SSMD::Processors
         annotation = find_annotation annotation_text
 
         if annotation.nil?
-          @warnings.push "Unknown annotation: #{text}"
+          warnings.push "Unknown annotation: #{text}"
         end
 
         [annotation].compact
@@ -72,7 +72,7 @@ module SSMD::Processors
         \(                              # opening annotations
           ((?:
             (?:
-              #{annotations_regex}
+              #{annotations_regex}      # annotations
             )(?:,\s?)?
           )+)
         \)                              # closing annotations
@@ -81,6 +81,10 @@ module SSMD::Processors
 
     def annotations_regex
       self.class.annotations.map(&:regex).join("|")
+    end
+
+    def warnings
+      @warnings ||= []
     end
   end
 end

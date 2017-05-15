@@ -26,7 +26,8 @@ module SSMD
       p = SSMD::Processors
 
       [
-        p::EmphasisProcessor, p::AnnotationProcessor, p::MarkProcessor
+        p::EmphasisProcessor, p::AnnotationProcessor, p::MarkProcessor,
+        p::ProsodyProcessor
       ]
     end
 

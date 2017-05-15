@@ -51,6 +51,10 @@ RSpec.describe SSMD do
       check_case "Phoneme"
     end
 
+    it "converts Prosoddy" do
+      check_case "Prosody"
+    end
+
     it "converts nested formats and ignores duplicate annotations" do
       check_case "Nesting and duplicate annotations"
     end

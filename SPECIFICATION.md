@@ -183,7 +183,7 @@ Volume:
 --extra soft--
 -soft-
 medium
-+loud+ or LOUD
++loud+
 ++extra loud++
 
 Rate:
@@ -202,7 +202,6 @@ medium
 ^high^
 ^^extra high^^
 
-++>>^^extra loud, fast and high^^>>++ or
 [extra loud, fast, and high](vrp: 555) or
 [extra loud, fast, and high](v: 5, r: 5, p: 5)
 ```
@@ -215,7 +214,7 @@ Volume:
 <prosody volume="x-soft">extra soft</prosody>
 <prosody volume="soft">soft</prosody>
 medium
-<prosody volume="loud">loud</prosody> or <prosody volume="loud">loud</prosody>
+<prosody volume="loud">loud</prosody>
 <prosody volume="x-loud">extra loud</prosody>
 
 Rate:
@@ -234,9 +233,8 @@ medium
 <prosody pitch="high">high</prosody>
 <prosody pitch="x-high">extra high</prosody>
 
-<prosody volume="x-loud" rate="x-fast" pitch="x-high">extra loud, fast and high</prosody> or
-<prosody volume="x-loud" rate="x-fast" pitch="x-high">extra loud, fast and high</prosody> or
-<prosody volume="x-loud" rate="x-fast" pitch="x-high">extra loud, fast and high</prosody>
+<prosody volume="x-loud" rate="x-fast" pitch="x-high">extra loud, fast, and high</prosody> or
+<prosody volume="x-loud" rate="x-fast" pitch="x-high">extra loud, fast, and high</prosody>
 ```
 
 The shortcuts are listed first. While they can be combined, sometimes it's easier and shorter to just use

@@ -2,11 +2,44 @@ require_relative 'annotation'
 
 module SSMD::Annotations
   class ProsodyAnnotation < Annotation
-    attr_reader :volume, :rate, :pitch
+    class << self
+      def regex
+        /(?:vrp: ?(\d{3}))|(?:([vrp]): ?(\d))/
+      end
 
-    def self.regex
-      /(?:vrp: ?(\d{3}))|(?:([vrp]): ?(\d))/
+      def volumes
+        {
+          0 => "silent",
+          1 => "x-soft",
+          2 => "soft",
+          3 => "medium",
+          4 => "loud",
+          5 => "x-loud"
+        }
+      end
+
+      def rates
+        {
+          1 => "x-slow",
+          2 => "slow",
+          3 => "medium",
+          4 => "fast",
+          5 => "x-fast"
+        }
+      end
+
+      def pitches
+        {
+          1 => "x-low",
+          2 => "low",
+          3 => "medium",
+          4 => "high",
+          5 => "x-high"
+        }
+      end
     end
+
+    attr_reader :volume, :rate, :pitch
 
     def initialize(vrp, *tuples)
       begin
@@ -42,52 +75,21 @@ module SSMD::Annotations
 
     private
 
-    def volumes
-      {
-        0 => "silent",
-        1 => "x-soft",
-        2 => "soft",
-        3 => "medium",
-        4 => "loud",
-        5 => "x-loud"
-      }
-    end
-
-    def rates
-      {
-        1 => "x-slow",
-        2 => "slow",
-        3 => "medium",
-        4 => "fast",
-        5 => "x-fast"
-      }
-    end
-
-    def pitches
-      {
-        1 => "x-low",
-        2 => "low",
-        3 => "medium",
-        4 => "high",
-        5 => "x-high"
-      }
-    end
-
     def set_vrp!(vrp)
-      @volume = volumes.fetch Integer(vrp[0])
-      @rate = rates.fetch Integer(vrp[1])
-      @pitch = pitches.fetch Integer(vrp[2])
+      @volume = self.class.volumes.fetch Integer(vrp[0])
+      @rate = self.class.rates.fetch Integer(vrp[1])
+      @pitch = self.class.pitches.fetch Integer(vrp[2])
     end
 
     def set_tuples!(tuples)
       tuples.each_slice(2).each do |key, value|
         case key
         when 'v'
-          @volume = volumes.fetch Integer(value)
+          @volume = self.class.volumes.fetch Integer(value)
         when 'r'
-          @rate = rates.fetch Integer(value)
+          @rate = self.class.rates.fetch Integer(value)
         when 'p'
-          @pitch = pitches.fetch Integer(value)
+          @pitch = self.class.pitches.fetch Integer(value)
         end
       end
     end

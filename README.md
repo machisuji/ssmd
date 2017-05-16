@@ -48,6 +48,7 @@ described in the specification are implemented:
 * Mark
 * Language
 * Phoneme
+* Prosody
 
 ## Development
 

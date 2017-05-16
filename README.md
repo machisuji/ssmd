@@ -50,6 +50,7 @@ described in the specification are implemented:
 * Phoneme
 * Prosody
 * Paragraph
+* Substitution
 
 ## Development
 

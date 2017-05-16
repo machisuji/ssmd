@@ -2,19 +2,20 @@ require 'ssmd/processors'
 
 module SSMD
   class Converter
-    attr_reader :input
+    attr_reader :input, :skip
 
     def initialize(input, skip: [])
       @input = input
+      @skip = Array(skip)
 
       processors.delete_if do |processor|
-        Array(skip).any? { |name| processor.name =~ /\ASSMD::Processors::#{name}Processor\Z/i }
+        self.skip.any? { |name| processor.name =~ /\ASSMD::Processors::#{name}Processor\Z/i }
       end
     end
 
     def convert
       result = processors.inject(input.encode(xml: :text)) do |text, processor|
-        process processor.new, text
+        process processor.new(processor_options), text
       end
 
       "<speak>#{result.strip}</speak>"
@@ -22,7 +23,7 @@ module SSMD
 
     def strip
       processors.inject(input) do |text, processor|
-        process processor.new, text, strip: true
+        process processor.new(processor_options), text, strip: true
       end
     end
 
@@ -44,6 +45,10 @@ module SSMD
       else
         input
       end
+    end
+
+    def processor_options
+      { skip: skip }
     end
   end
 end

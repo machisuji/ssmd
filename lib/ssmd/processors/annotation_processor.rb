@@ -6,6 +6,16 @@ module SSMD::Processors
   class AnnotationProcessor < Processor
     attr_reader :annotations
 
+    def initialize(options = {})
+      super
+
+      @annotations = self.class.annotations.dup
+
+      annotations.delete_if do |annotation|
+        Array(options[:skip]).any? { |name| annotation.name =~ /\ASSMD::Annotations::#{name}Annotation\Z/i }
+      end
+    end
+
     def result
       _, annotations_text = match.captures
 
@@ -21,7 +31,11 @@ module SSMD::Processors
     def self.annotations
       a = SSMD::Annotations
 
-      [a::LanguageAnnotation, a::PhonemeAnnotation, a::ProsodyAnnotation]
+      [
+        a::LanguageAnnotation, a::PhonemeAnnotation, a::ProsodyAnnotation,
+        a::SubstitutionAnnotation
+      ]
+        .freeze
     end
 
     def ok?
@@ -65,7 +79,7 @@ module SSMD::Processors
     #
     #     [Guardians of the Galaxy](en-GB, v: +4dB, p: -3%)
     def regex
-      %r{
+      @regex ||= %r{
         \[                              # opening text
           ([^\]]+)                      # annotated text
         \]                              # closing text
@@ -80,7 +94,7 @@ module SSMD::Processors
     end
 
     def annotations_regex
-      self.class.annotations.map(&:regex).join("|")
+      annotations.map(&:regex).join("|")
     end
 
     def warnings

@@ -1,6 +1,10 @@
 module SSMD::Processors
   class Processor
-    attr_reader :match
+    attr_reader :match, :options
+
+    def initialize(options = {})
+      @options = options
+    end
 
     def matches?(input)
       @match = regex.match input

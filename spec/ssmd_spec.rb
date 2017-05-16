@@ -61,8 +61,26 @@ RSpec.describe SSMD do
       check_case "Paragraph"
     end
 
+    it "converts Substitution" do
+      check_case "Substitution"
+    end
+
     it "converts nested formats and ignores duplicate annotations" do
       check_case "Nesting and duplicate annotations"
+    end
+
+    context "with skip" do
+      it ":prosody it skips Prosody" do
+        input = "some [text](vrp: 555) with >>prosody>>"
+
+        expect(SSMD.to_ssml(input, skip: :prosody)).to eq "<speak>some [text](vrp: 555) with &gt;&gt;prosody&gt;&gt;</speak>"
+      end
+
+      it ":emphasis it skips Emphasis" do
+        input = "some *text* with *Emphasis*"
+
+        expect(SSMD.to_ssml(input, skip: :emphasis)).to eq "<speak>#{input}</speak>"
+      end
     end
   end
 
@@ -73,6 +91,20 @@ RSpec.describe SSMD do
 
     it "returns the plain text without SSMD annotations" do
       expect(SSMD.strip_ssmd(input)).to eq "Hallo welt A B C"
+    end
+
+    context "with skip" do
+      it ":prosody it skips prosody" do
+        input = "some [text](vrp: 555) with >>prosody>>"
+
+        expect(SSMD.strip_ssmd(input, skip: :prosody)).to eq input
+      end
+
+      it ":emphasis it skips Emphasis" do
+        input = "some *text* with *Emphasis*"
+
+        expect(SSMD.strip_ssmd(input, skip: :emphasis)).to eq input
+      end
     end
   end
 end

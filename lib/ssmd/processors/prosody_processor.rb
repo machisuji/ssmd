@@ -7,7 +7,7 @@ module SSMD::Processors
     end
 
     def regex
-      Regex.prosody
+      @regex ||= Regex.prosody
     end
 
     private

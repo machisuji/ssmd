@@ -69,14 +69,14 @@ Hello ...100   world    (100 millisecond break (max 10000ms))
 
 SSML:
 ```html
-Hello <break strength="x-strong"/> world
-Hello - <break strength="none"/> world
-Hello <break strength="medium"/> world
-Hello <break strength="strong"/> world
-Hello <break strength="x-strong"/> world
-Hello <break time="5s"/> world
-Hello <break time="100ms"/> world
-Hello <break time="100ms"/> world
+Hello <break strength="x-strong"/>      world    (default: x-strong break like after a paragraph)
+Hello - <break strength="none"/>   world    (skip break when there would otherwise be one like after this dash)
+Hello <break strength="medium"/>     world    (medium break like after a comma)
+Hello <break strength="strong"/>     world    (strong break like after a sentence)
+Hello <break strength="x-strong"/>     world    (extra string break like after a paragraph)
+Hello <break time="5s"/>    world    (5 second break (max 10s))
+Hello <break time="100ms"/> world    (100 millisecond break (max 10000ms))
+Hello <break time="100ms"/>   world    (100 millisecond break (max 10000ms))
 ```
 
 ***

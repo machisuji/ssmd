@@ -35,6 +35,10 @@ RSpec.describe SSMD do
       expect(result).to eq spec.output
     end
 
+    it "converts Break" do
+      check_case "Break"
+    end
+
     it "converts Emphasis" do
       check_case "Emphasis"
     end

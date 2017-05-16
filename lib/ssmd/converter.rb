@@ -33,7 +33,7 @@ module SSMD
 
         [
           p::EmphasisProcessor, p::AnnotationProcessor, p::MarkProcessor,
-          p::ProsodyProcessor, p::ParagraphProcessor
+          p::ProsodyProcessor, p::ParagraphProcessor, p::BreakProcessor
         ]
       end
     end

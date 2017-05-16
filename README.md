@@ -44,7 +44,7 @@ This version is still under development. See below which essential SSML construc
 
 * [x] Text
 * [x] Emphasis
-* [ ] Break
+* [x] Break
 * [x] Language
 * [x] Mark
 * [x] Paragraph

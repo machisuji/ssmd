@@ -40,17 +40,19 @@ puts ssml
 
 **Note:**
 
-This version is still under development. So far only the following conversions
-described in the specification are implemented:
+This version is still under development. See below which essential SSML constructs are implemented so far:
 
-* Text
-* Emphasis
-* Mark
-* Language
-* Phoneme
-* Prosody
-* Paragraph
-* Substitution
+* [x] Text
+* [x] Emphasis
+* [ ] Break
+* [x] Language
+* [x] Mark
+* [x] Paragraph
+* [x] Phoneme
+* [x] Prosody
+* [ ] Say-as
+* [x] Substitution
+* [ ] Extensions
 
 ## Development
 

@@ -133,12 +133,14 @@ First prepare the ingredients.
 Don't forget to wash them first.
 
 Lastly mix them all together.
+
+Don't forget to do the dishes after!
 ```
 
 SSML:
 ```html
-<p>First prepare the ingredients. Don't forget to wash them first.</p>
-<p>Lastly mix them all together.</p>
+<p>First prepare the ingredients.
+Don't forget to wash them first.</p><p>Lastly mix them all together.</p><p>Don't forget to do the dishes after!</p>
 ```
 
 ***

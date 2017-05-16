@@ -49,6 +49,7 @@ described in the specification are implemented:
 * Language
 * Phoneme
 * Prosody
+* Paragraph
 
 ## Development
 

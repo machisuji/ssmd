@@ -4,8 +4,12 @@ module SSMD
   class Converter
     attr_reader :input
 
-    def initialize(input)
+    def initialize(input, skip: [])
       @input = input
+
+      processors.delete_if do |processor|
+        Array(skip).any? { |name| processor.name =~ /\ASSMD::Processors::#{name}Processor\Z/i }
+      end
     end
 
     def convert
@@ -23,12 +27,14 @@ module SSMD
     end
 
     def processors
-      p = SSMD::Processors
+      @processors ||= begin
+        p = SSMD::Processors
 
-      [
-        p::EmphasisProcessor, p::AnnotationProcessor, p::MarkProcessor,
-        p::ProsodyProcessor
-      ]
+        [
+          p::EmphasisProcessor, p::AnnotationProcessor, p::MarkProcessor,
+          p::ProsodyProcessor, p::ParagraphProcessor
+        ]
+      end
     end
 
     def process(processor, input, strip: false)

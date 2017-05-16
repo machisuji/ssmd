@@ -12,9 +12,9 @@ RSpec.describe SSMD do
     spec_case
   end
 
-  def check_case(title)
+  def check_case(title, skip: [])
     spec = find_case title
-    result = SSMD.to_ssml(spec.input).gsub(/\A<speak>/, "").gsub(/<\/speak>\Z/, "")
+    result = SSMD.to_ssml(spec.input, skip: skip).gsub(/\A<speak>/, "").gsub(/<\/speak>\Z/, "")
 
     expect(result).to eq spec.output
   end
@@ -52,7 +52,13 @@ RSpec.describe SSMD do
     end
 
     it "converts Prosoddy" do
-      check_case "Prosody"
+      # don't generate paragraphs in this spec to make the
+      # resulting SSML for the spec more readable
+      check_case "Prosody", skip: :paragraph
+    end
+
+    it "converts Paragraph" do
+      check_case "Paragraph"
     end
 
     it "converts nested formats and ignores duplicate annotations" do

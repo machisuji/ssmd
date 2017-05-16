@@ -4,17 +4,27 @@ require "ssmd/converter"
 module SSMD
   module_function
 
-  def to_ssml(ssmd)
-    Converter.new(ssmd).convert
+  ##
+  # Translates the given SSMD text to SSML.
+  #
+  # @param ssmd [String] The SSMD markup to be converted to SSML
+  # @param skip [Array<Symbol>] Formats (e.g. `:paragraph`, `:prosody`) to skip.
+  #
+  # @return [String] Resulting SSML
+  def to_ssml(ssmd, skip: [])
+    Converter.new(ssmd, skip: skip).convert
   end
 
   ##
   # Returns the given string without any SSMD annotations.
   # For instance for `hello *world*` would return `hello world`.
   #
+  # @param ssmd [String] The SSMD markup to strip from SSMD annotations.
+  # @param skip [Array<Symbol>] Formats (e.g. `:paragraph`, `:prosody`) to skip.
+  #
   # @return [String]
-  def strip_ssmd(ssmd)
-    Converter.new(ssmd).strip
+  def strip_ssmd(ssmd, skip: [])
+    Converter.new(ssmd, skip: skip).strip
   end
 
   def root_dir

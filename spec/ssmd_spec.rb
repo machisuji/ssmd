@@ -86,6 +86,14 @@ RSpec.describe SSMD do
         expect(SSMD.to_ssml(input, skip: :emphasis)).to eq "<speak>#{input}</speak>"
       end
     end
+
+    context "with more complex examples" do
+      it "supports nested Prosody" do
+        input = "[one [two](p: 5) three](p: 1)"
+
+        expect(SSMD.to_ssml(input)).to eq "<speak><prosody pitch=\"x-low\">one <prosody pitch=\"x-high\">two</prosody> three</prosody></speak>"
+      end
+    end
   end
 
   describe ".strip_ssmd" do

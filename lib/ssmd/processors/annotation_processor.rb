@@ -81,7 +81,7 @@ module SSMD::Processors
     def regex
       @regex ||= %r{
         \[                              # opening text
-          ([^\]]+)                      # annotated text
+          ([^\[\]]+)                    # annotated text
         \]                              # closing text
         \(                              # opening annotations
           ((?:

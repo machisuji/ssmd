@@ -57,12 +57,14 @@ module SSMD::Annotations
 
     def wrap(text)
       attributes = [
+        "",
         ("volume=\"#{volume}\"" if volume),
         ("rate=\"#{rate}\"" if rate),
         ("pitch=\"#{pitch}\"" if pitch)
       ]
+        .compact
 
-      "<prosody #{attributes.join(' ')}>#{text}</prosody>"
+      "<prosody#{attributes.join(' ')}>#{text}</prosody>"
     end
 
     def combine(annotation)

@@ -153,11 +153,13 @@ This can be done via phonemes. While SSML supports IPA, SSMD uses [X-SAMPA](http
 SSMD:
 ```
 The German word ["dich"](ph: dIC) does not sound like dick.
+You can also use IPA directly: ["dich"](ipa: dɪç)
 ```
 
 SSML:
 ```html
 The German word <phoneme alphabet="ipa" ph="dɪç">"dich"</phoneme> does not sound like dick.
+You can also use IPA directly: <phoneme alphabet="ipa" ph="dɪç">"dich"</phoneme>
 ```
 
 ***

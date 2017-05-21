@@ -7,12 +7,17 @@ module SSMD::Annotations
     attr_reader :x_sampa, :ipa
 
     def self.regex
-      /ph: ?(.+)/
+      /((?:ph)|(?:ipa)): ?(.+)/
     end
 
-    def initialize(x_sampa)
-      @x_sampa = x_sampa
-      @ipa = x_sampa_to_ipa x_sampa
+    def initialize(ph, text)
+      @x_sampa = text if ph == "ph"
+
+      if ph == "ph"
+        @ipa = x_sampa_to_ipa x_sampa
+      elsif ph == "ipa"
+        @ipa = text
+      end
     end
 
     def wrap(text)

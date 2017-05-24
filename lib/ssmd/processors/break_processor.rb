@@ -8,6 +8,10 @@ module SSMD::Processors
       "<break #{name}=\"#{value}\"/>"
     end
 
+    def text
+      ""
+    end
+
     def regex
       /(?<=\s)\.\.\.(?:(?<comma>c)|(?<sentence>s)|(?<paragraph>p)|(?<s>\d+s)|(?<ms>\d+ms)|(?<num>\d+))?(?=\s)/
     end

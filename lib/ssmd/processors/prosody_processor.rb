@@ -6,6 +6,10 @@ module SSMD::Processors
       with_volume || with_rate || with_pitch
     end
 
+    def text
+      match.captures.compact.first
+    end
+
     def regex
       @regex ||= Regex.prosody
     end

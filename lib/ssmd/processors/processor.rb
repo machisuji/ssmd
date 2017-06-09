@@ -14,13 +14,13 @@ module SSMD::Processors
 
     def substitute(input)
       if match
-        match.pre_match + result + match.post_match
+        [match.pre_match, result, match.post_match].join
       end
     end
 
     def strip_ssmd(input)
       if match
-        match.pre_match + text + match.post_match
+        [match.pre_match, text, match.post_match].join
       end
     end
 

@@ -242,7 +242,7 @@ medium
 ```
 
 The shortcuts are listed first. While they can be combined, sometimes it's easier and shorter to just use
-the explizit form shown in the last 2 lines. All of them can be nested, too.
+the explicit form shown in the last 2 lines. All of them can be nested, too.
 Moreover changes in volume (`[louder](v: +10dB)`) and pitch (`[lower](p: -4%)`) can also be given explicitly in relative values.
 
 ***

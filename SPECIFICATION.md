@@ -107,7 +107,7 @@ I saw <lang xml:lang="de-DE">"Die Häschenschule"</lang> in the cinema.
 
 ### Mark
 
-Sections of text can be tagged using marks. They do not effect the synthesis but
+Sections of text can be tagged using marks. They do not affect the synthesis but
 can be returned by SSML processing engines as meta information and to emit
 events during processing based on these marks.
 

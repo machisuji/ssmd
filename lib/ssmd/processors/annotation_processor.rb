@@ -6,6 +6,16 @@ module SSMD::Processors
   class AnnotationProcessor < Processor
     attr_reader :annotations
 
+    def self.annotations
+      a = SSMD::Annotations
+
+      [
+        a::LanguageAnnotation, a::PhonemeAnnotation, a::ProsodyAnnotation,
+        a::SubstitutionAnnotation
+      ]
+        .freeze
+    end
+
     def initialize(options = {})
       super
 
@@ -26,16 +36,6 @@ module SSMD::Processors
           a.wrap(text)
         end
       end
-    end
-
-    def self.annotations
-      a = SSMD::Annotations
-
-      [
-        a::LanguageAnnotation, a::PhonemeAnnotation, a::ProsodyAnnotation,
-        a::SubstitutionAnnotation
-      ]
-        .freeze
     end
 
     def ok?

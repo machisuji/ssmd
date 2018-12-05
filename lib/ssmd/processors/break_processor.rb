@@ -13,7 +13,7 @@ module SSMD::Processors
     end
 
     def regex
-      /(?<=\s)\.\.\.(?:(?<comma>c)|(?<sentence>s)|(?<paragraph>p)|(?<s>\d+s)|(?<ms>\d+ms)|(?<num>\d+))?(?=\s)/
+      /(?<=\s|\A)\.\.\.(?:(?<comma>c)|(?<sentence>s)|(?<paragraph>p)|(?<s>\d+s)|(?<ms>\d+ms)|(?<num>\d+))?(?=\s|\z)/
     end
 
     def attribute
@@ -42,8 +42,16 @@ module SSMD::Processors
       leading_ws = /\A\s/
       trailing_ws = /\s\z/
 
-      if prefix =~ trailing_ws && suffix =~ leading_ws && text == ""
-        prefix.sub(trailing_ws, "") + suffix
+      if text == ""
+        if prefix =~ trailing_ws && suffix =~ leading_ws
+          prefix.sub(trailing_ws, "") + suffix
+        elsif prefix == ""
+          suffix.sub(leading_ws, "")
+        elsif suffix == ""
+          prefix.sub(trailing_ws, "")
+        else
+          super
+        end
       else
         super
       end

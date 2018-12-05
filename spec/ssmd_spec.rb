@@ -94,6 +94,17 @@ RSpec.describe SSMD do
         expect(SSMD.to_ssml(input)).to eq "<speak><prosody pitch=\"x-low\">one <prosody pitch=\"x-high\">two</prosody> three</prosody></speak>"
       end
     end
+
+    describe "edge cases" do
+      describe "Break" do
+        it "should work with breaks at the beginning and end of inputs" do
+          input = "... hallo ..."
+          expected = "<speak><break strength=\"x-strong\"/> hallo <break strength=\"x-strong\"/></speak>"
+
+          expect(SSMD.to_ssml(input)).to eq expected
+        end
+      end
+    end
   end
 
   describe ".strip_ssmd" do
@@ -101,7 +112,8 @@ RSpec.describe SSMD do
       {
         "Hallo *welt* [A *B* C](en)" => "Hallo welt A B C",
         "<*dear* lord<" => "dear lord",
-        "Some ...c text" => "Some text"
+        "Some ...c text" => "Some text",
+        "... Hello ...2s World ...2s" => "Hello World"
       }
     end
 

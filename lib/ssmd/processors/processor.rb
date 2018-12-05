@@ -13,15 +13,11 @@ module SSMD::Processors
     end
 
     def substitute(input)
-      if match
-        [match.pre_match, result, match.post_match].join
-      end
+      join_parts match.pre_match, result, match.post_match if match
     end
 
     def strip_ssmd(input)
-      if match
-        [match.pre_match, text, match.post_match].join
-      end
+      join_parts match.pre_match, text, match.post_match if match
     end
 
     def text
@@ -38,6 +34,12 @@ module SSMD::Processors
 
     def warnings
       @warnings ||= []
+    end
+
+    private
+
+    def join_parts(prefix, text, suffix)
+      [prefix, text, suffix].join
     end
   end
 end

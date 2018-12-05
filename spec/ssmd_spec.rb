@@ -100,7 +100,8 @@ RSpec.describe SSMD do
     let(:cases) do
       {
         "Hallo *welt* [A *B* C](en)" => "Hallo welt A B C",
-        "<*dear* lord<" => "dear lord"
+        "<*dear* lord<" => "dear lord",
+        "Some ...c text" => "Some text"
       }
     end
 

@@ -35,5 +35,18 @@ module SSMD::Processors
         ["strength", "x-strong"]
       end
     end
+
+    private
+
+    def join_parts(prefix, text, suffix)
+      leading_ws = /\A\s/
+      trailing_ws = /\s\z/
+
+      if prefix =~ trailing_ws && suffix =~ leading_ws && text == ""
+        prefix.sub(trailing_ws, "") + suffix
+      else
+        super
+      end
+    end
   end
 end

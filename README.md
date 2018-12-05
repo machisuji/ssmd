@@ -28,6 +28,8 @@ Or install it yourself as:
 
 ## Usage
 
+You can convert SSML to SSMD using `SSMD::to_ssml`:
+
 ```ruby
 require 'ssmd'
 
@@ -36,6 +38,19 @@ ssml = SSMD.to_ssml ssmd
 
 puts ssml
 # Output: <speak>hello <emphasis>SSMD</emphasis>!</speak>
+```
+
+Sometimes you will want to see just the plain text without any SSMD annotations.
+For this you can use `SSMD::stip_ssmd`:
+
+```ruby
+require 'ssmd'
+
+ssmd = "[hallo](de) *SSMD*!"
+plain_text = SSMD.strip_ssmd ssmd
+
+puts plain_text
+# Output: hallo SSMD!
 ```
 
 **Note:**

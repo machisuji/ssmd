@@ -97,12 +97,17 @@ RSpec.describe SSMD do
   end
 
   describe ".strip_ssmd" do
-    let(:input) do
-      "Hallo *welt* [A *B* C](en)"
+    let(:cases) do
+      {
+        "Hallo *welt* [A *B* C](en)" => "Hallo welt A B C",
+        "<*dear* lord<" => "dear lord"
+      }
     end
 
     it "returns the plain text without SSMD annotations" do
-      expect(SSMD.strip_ssmd(input)).to eq "Hallo welt A B C"
+      cases.each do |input, output|
+        expect(SSMD.strip_ssmd(input)).to eq output
+      end
     end
 
     context "with skip" do

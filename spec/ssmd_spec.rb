@@ -104,6 +104,15 @@ RSpec.describe SSMD do
           expect(SSMD.to_ssml(input)).to eq expected
         end
       end
+
+      describe "Mark" do
+        it "should work with marks at the beginning and end of inputs" do
+          input = "@begin some @middle text @end"
+          expected = "<speak><mark name=\"begin\"/> some <mark name=\"middle\"/> text <mark name=\"end\"/></speak>"
+
+          expect(SSMD.to_ssml(input)).to eq expected
+        end
+      end
     end
   end
 
@@ -113,7 +122,8 @@ RSpec.describe SSMD do
         "Hallo *welt* [A *B* C](en)" => "Hallo welt A B C",
         "<*dear* lord<" => "dear lord",
         "Some ...c text" => "Some text",
-        "... Hello ...2s World ...2s" => "Hello World"
+        "... Hello ...2s World ...2s" => "Hello World",
+        "@begin some @middle text @end" => "some text"
       }
     end
 

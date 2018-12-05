@@ -1,7 +1,10 @@
 require_relative 'processor'
+require_relative 'concerns/no_content'
 
 module SSMD::Processors
   class BreakProcessor < Processor
+    prepend NoContent
+
     def result
       name, value = attribute
 
@@ -33,27 +36,6 @@ module SSMD::Processors
         ["strength", "medium"]
       else
         ["strength", "x-strong"]
-      end
-    end
-
-    private
-
-    def join_parts(prefix, text, suffix)
-      leading_ws = /\A\s/
-      trailing_ws = /\s\z/
-
-      if text == ""
-        if prefix =~ trailing_ws && suffix =~ leading_ws
-          prefix.sub(trailing_ws, "") + suffix
-        elsif prefix == ""
-          suffix.sub(leading_ws, "")
-        elsif suffix == ""
-          prefix.sub(trailing_ws, "")
-        else
-          super
-        end
-      else
-        super
       end
     end
   end

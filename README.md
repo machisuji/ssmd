@@ -91,3 +91,18 @@ Bug reports and pull requests are welcome on GitHub at https://github.com/machis
 ## License
 
 The gem is available as open source under the terms of the [MIT License](http://opensource.org/licenses/MIT).
+
+## Related projects
+
+### SSMD (JS)
+
+Follows the SSMD [specification]((SPECIFICATION.md)).
+
+Source: https://github.com/fabien88/ssmd
+
+### Speech Markdown
+
+Speech Markdown has their own specification which is different than SSMD.
+
+Website: https://www.speechmarkdown.org/
+Source: https://github.com/speechmarkdown/
